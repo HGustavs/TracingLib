@@ -14,8 +14,8 @@ var data;
 var bits=3;
 var bitsplit=256/bits;
            
-var maxw=300;
-var maxh=400;    
+var maxw=600;
+var maxh=800;    
 var rw=maxw+maxw;
         
 var histogram=[];
@@ -54,6 +54,7 @@ function initcanvas()
     var canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
 
+  /*
     repcnt=parseInt(localStorage.getItem('repcnt'));
     rescnt=parseInt(localStorage.getItem('rescnt'));  
   
@@ -65,8 +66,11 @@ function initcanvas()
     if(res<100){
         res="0"+res;
     }
-    
-    var str='<img id="imgy" src="friends'+res+'.png" onload="imageloaded();" style="display:none;" />';
+*/  
+    // Debugging aid!
+    res=800;
+  
+    var str='<img id="imgy" src="diagram'+res+'.png" onload="imageloaded();" style="display:none;" />';
     document.getElementById("dave").innerHTML=str;
 
 } 
@@ -507,7 +511,7 @@ function updateview()
     localStorage.setItem('repcnt',repcnt+1);
     localStorage.setItem('rescnt',rescnt);
 
-    setTimeout(function(){ location.reload();  }, 200);  
+//    setTimeout(function(){ location.reload();  }, 200);  
   
 }
 
