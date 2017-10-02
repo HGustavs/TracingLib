@@ -5,7 +5,8 @@
 		
 		<script>
 
-
+// Measurement Array
+var resarr=[15,20,23,30,30,40,38,50,45,60,53,70,60,80,68,90,75,100,83,110,90,120,98,130,105,140,113,150,120,160,128,170,135,180,143,190,150,200,158,210,165,220,173,230,180,240,188,250,195,260,203,270,210,280,218,290,225,300,233,310,240,320,248,330,255,340,263,350,270,360,278,370,293,390,300,400,308,410,315,420,323,430,330,440,338,450,345,460,353,470,360,480,368,490,375,500,383,510,390,520,398,530,405,540,413,550,420,560,428,570,435,580,443,590,450,600,458,610,465,620,473,630,480,640,488,650,495,660,503,670,510,680,518,690,525,700,533,710,540,720,548,730,555,740,563,750,570,760,578,770,585,780,593,790,600,800,615,820,630,840,645,860,660,880,668,890,675,900,690,920,705,940,720,960,735,980,750,1000];
         
 var ctx;
 var data;
@@ -13,8 +14,8 @@ var data;
 var bits=3;
 var bitsplit=256/bits;
            
-var maxw=15;
-var maxh=20;    
+var maxw=300;
+var maxh=400;    
 var rw=maxw+maxw;
         
 var histogram=[];
@@ -23,8 +24,11 @@ var buffer = new ArrayBuffer(1024);
 var cache = new Int16Array(buffer);
 
 var objs = [];
-
+      
 var consloe={};
+
+var repcnt=0, rescnt=0;
+      
 consloe.log=function(gobBluth)
 {
 		document.getElementById("consloe").innerHTML=((JSON.stringify(gobBluth)+"<br>")+document.getElementById("consloe").innerHTML);
@@ -32,13 +36,6 @@ consloe.log=function(gobBluth)
         
 function imageloaded()
 {
-}        
-
-function initcanvas()
-{
-    var canvas = document.getElementById("myCanvas");
-    ctx = canvas.getContext("2d");
-
     var img=document.getElementById("imgy");
 
     // Clear to allow us to read/write pixels properly
@@ -49,7 +46,29 @@ function initcanvas()
     ctx.drawImage(img,0,0);
     data=ctx.getImageData(0, 0, rw, maxh);
 
-    setTimeout(function(){ updateview(); }, 100);
+    updateview();
+}        
+
+function initcanvas()
+{
+    var canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+
+    repcnt=parseInt(localStorage.getItem('repcnt'));
+    rescnt=parseInt(localStorage.getItem('rescnt'));  
+  
+    var res=resarr[(rescnt*2)+1];
+    maxw=resarr[rescnt*2];
+    maxh=resarr[(rescnt*2)+1];
+    rw=maxw+maxw;
+  
+    if(res<100){
+        res="0"+res;
+    }
+    
+    var str='<img id="imgy" src="friends'+res+'.png" onload="imageloaded();" style="display:none;" />';
+    document.getElementById("dave").innerHTML=str;
+
 } 
  
 var medw=5;
@@ -227,8 +246,6 @@ function floodfill(floodx,floody,trigger)
                 
 function updateview()
 {
-    
-    var starttime=performance.now();
 
     // Image contains a pre-reduced red color palette.
     // Make all data either pure white or pure black!
@@ -240,6 +257,8 @@ function updateview()
         }
     }
     
+    var starttime=performance.now();
+
     // Flood fill green channel based on red channel contour.
     // cnt=floodfill(0,0,255);
         
@@ -478,7 +497,18 @@ function updateview()
     localStorage.setItem('benchmark', str); 
     
     drawOutlines();
-    
+  
+
+    if(repcnt>1){
+        repcnt=0;
+        rescnt++;
+      
+    }
+    localStorage.setItem('repcnt',repcnt+1);
+    localStorage.setItem('rescnt',rescnt);
+
+    setTimeout(function(){ location.reload();  }, 200);  
+  
 }
 
 //--------------------------------------------------------------------------
@@ -1169,6 +1199,9 @@ function setuptimer()
     
     <button onclick="consloe.log(localStorage.getItem('benchmark'));">Show Benchmark</button>
     <button onclick="localStorage.setItem('benchmark','');">Clear Benchmark</button>
+    <button onclick="localStorage.setItem('repcnt','0');localStorage.setItem('rescnt','0');">Clear Benchmark</button>
+
+    <button onclick="alert(maxw+' '+maxh+' '+repcnt+' '+rescnt+'\n');">Alert</button>
   
     <input id="tresh" type="range" min="0.001" max="0.15" step="0.001" value="0.01" onchange="reduce();" oninput="reduce();">
     <input id="treshtext" type="text">
@@ -1181,7 +1214,7 @@ function setuptimer()
     <canvas id="myCanvas" width="2000" height="1000" style="border:1px solid blue;">
     </canvas>
     
-    <img id="imgy" src="friends020.png" onload="imageloaded();" style="display:none;" />
+    <div id="dave"></div>  
 
     <div id="consloe" style="position:fixed;left:0px;right:0px;bottom:0px;height:100px;overflow:scroll;background:#dfe;border:1px solid green;">consloe</div>
 </body>
