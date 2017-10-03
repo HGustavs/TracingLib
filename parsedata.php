@@ -9,7 +9,7 @@
 date_default_timezone_set("Europe/Berlin");
 
 $datan = $_POST['benchmark'];
-$filename = $_POST['m']
+$filename = $_POST['m'];
 
 $dataarr=explode("\n", $datan);
 
