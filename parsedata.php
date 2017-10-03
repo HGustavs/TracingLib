@@ -16,9 +16,10 @@ $dataarr=explode("\n", $datan);
 $pdo = new PDO('mysql:dbname=eurographicsdata;host=localhost', 'wikiadmin', 'kingfisher');
 $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
-$sql = 'DELETE FROM gdata WHERE filenme=:filenme);';
+$sql = 'DELETE FROM gdata WHERE filenme=":filenme";';
 $stmt = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
 $stmt->bindParam(':filenme', $filename);
+$stmt->execute();
 
 foreach($dataarr as $key => $value){
     $dataarrz=explode(",", $value);
