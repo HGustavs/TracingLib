@@ -54,7 +54,6 @@ function initcanvas()
     var canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
 
-  /*
     repcnt=parseInt(localStorage.getItem('repcnt'));
     rescnt=parseInt(localStorage.getItem('rescnt'));  
   
@@ -66,11 +65,11 @@ function initcanvas()
     if(res<100){
         res="0"+res;
     }
-*/  
+
     // Debugging aid!
-    res=800;
+//    res=800;
   
-    var str='<img id="imgy" src="diagram'+res+'.png" onload="imageloaded();" style="display:none;" />';
+    var str='<img id="imgy" src="DemoImages/Diagram/diagram'+res+'.png" onload="imageloaded();" style="display:none;" />';
     document.getElementById("dave").innerHTML=str;
 
 } 
@@ -511,7 +510,7 @@ function updateview()
     localStorage.setItem('repcnt',repcnt+1);
     localStorage.setItem('rescnt',rescnt);
 
-//    setTimeout(function(){ location.reload();  }, 200);  
+    if(document.getElementById("chb").checked) setTimeout(function(){ location.reload();  }, 200);  
   
 }
 
@@ -1204,6 +1203,7 @@ function setuptimer()
     <button onclick="consloe.log(localStorage.getItem('benchmark'));">Show Benchmark</button>
     <button onclick="localStorage.setItem('benchmark','');">Clear Benchmark</button>
     <button onclick="localStorage.setItem('repcnt','0');localStorage.setItem('rescnt','0');">Clear Benchmark</button>
+    <input type="checkbox" id="chb" value="checked" />
 
     <button onclick="alert(maxw+' '+maxh+' '+repcnt+' '+rescnt+'\n');">Alert</button>
   
