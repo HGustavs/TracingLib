@@ -11,6 +11,8 @@ var measurementSeries="Infographics_OSX_FF";
 
 function transmitBenchmark(){
     var xhttp = new XMLHttpRequest();
+    var params = "benchmark="+localStorage.getItem('benchmark')+"&m="+measurementSeries;
+
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           document.getElementById("consloe").innerHTML = this.responseText;
@@ -18,7 +20,7 @@ function transmitBenchmark(){
     };
     xhttp.open("POST", host, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("benchmark="+localStorage.getItem('benchmark')+"&m="+measurementSeries);
+    xhttp.send(params);
 }
 
 // Measurement Array
@@ -525,8 +527,11 @@ function updateview()
     }
     localStorage.setItem('repcnt',repcnt+1);
     localStorage.setItem('rescnt',rescnt);
+    document.getElementById("res").innerHTML="Progress, resolutions:"+(rescnt+1)+"/"+((resarr.length/2)+1);
+    document.getElementById("reps").innerHTML="Progress, repetitions:"+(repcnt+1)+"/20";
 
-    if(document.getElementById("chb").checked) setTimeout(function(){ location.reload();  }, 200);  
+    //if(document.getElementById("chb").checked) setTimeout(function(){ location.reload();  }, 200);  
+    setTimeout(function(){ location.reload();  }, 200);
   
 }
 
@@ -1229,7 +1234,7 @@ function setuptimer()
 
     <input id="stepz" type="range" min="1" max="40" step="1" value="15" onchange="reduce();" oninput="reduce();">
     <input id="stepztext" type="text">
-    
+    <span id="res">Progress, resolutions:0/0</span> <span id="reps">Progress, repetitions:0/20</span>
     <br>
     
     <canvas id="myCanvas" width="2000" height="1000" style="border:1px solid blue;">
