@@ -7,6 +7,7 @@
 
 // Transmit benchmark
 var host="parsedata.php";
+var measurementSeries="Infographics_OSX_FF";
 
 function transmitBenchmark(){
     var xhttp = new XMLHttpRequest();
@@ -17,7 +18,7 @@ function transmitBenchmark(){
     };
     xhttp.open("POST", host, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("benchmark="+localStorage.getItem('benchmark'));
+    xhttp.send("benchmark="+localStorage.getItem('benchmark')+"&m="+measurementSeries);
 }
 
 // Measurement Array
