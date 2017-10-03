@@ -35,7 +35,7 @@ foreach($dataarr as $key => $value){
         $stmt->bindParam(':vectno', floatval($dataarrz[6]));
         $stmt->bindParam(':updtime', date("Y-m-d H:i:s",strtotime($dataarrz[7])));
         $stmt->bindParam(':url', $dataarrz[8]);
-        $stmt->bindParam(':filenme', $datastr);
+        $stmt->bindParam(':filenme', $filename);
         $stmt->execute();
     }
       
