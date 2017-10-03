@@ -5,6 +5,21 @@
 		
 		<script>
 
+// Transmit benchmark
+var host="http://localhost/~brom/TracingLib/parsedata.php";
+
+function transmitBenchmark(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("consloe").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("POST", host, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("benchmark="+localStorage.getItem('benchmark'));
+}
+
 // Measurement Array
 var resarr=[15,20,23,30,30,40,38,50,45,60,53,70,60,80,68,90,75,100,83,110,90,120,98,130,105,140,113,150,120,160,128,170,135,180,143,190,150,200,158,210,165,220,173,230,180,240,188,250,195,260,203,270,210,280,218,290,225,300,233,310,240,320,248,330,255,340,263,350,270,360,278,370,293,390,300,400,308,410,315,420,323,430,330,440,338,450,345,460,353,470,360,480,368,490,375,500,383,510,390,520,398,530,405,540,413,550,420,560,428,570,435,580,443,590,450,600,458,610,465,620,473,630,480,640,488,650,495,660,503,670,510,680,518,690,525,700,533,710,540,720,548,730,555,740,563,750,570,760,578,770,585,780,593,790,600,800,615,820,630,840,645,860,660,880,668,890,675,900,690,920,705,940,720,960,735,980,750,1000];
         
@@ -1201,6 +1216,7 @@ function setuptimer()
 <body onload="setuptimer();initcanvas();">
     
     <button onclick="consloe.log(localStorage.getItem('benchmark'));">Show Benchmark</button>
+    <button onclick="transmitBenchmark();">Transmit Benchmark</button>
     <button onclick="localStorage.setItem('benchmark','');">Clear Benchmark</button>
     <button onclick="localStorage.setItem('repcnt','0');localStorage.setItem('rescnt','0');">Clear Benchmark</button>
     <input type="checkbox" id="chb" value="checked" />
