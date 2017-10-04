@@ -90,22 +90,23 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
                 svgstr+=xk+","+yk;
             }
             svgstr+="' style='fill:none;stroke:"+colorz[j]+";stroke-width:2' />"
-/*
+
             // Error bar fill
             svgstr+="<polygon clip-path='url(#daClip)' points='";
-            for(i=0;i<resarr.length;i+=5){
+            for(i=0;i<resarr[j].length;i+=5){
                 xk=xstart+Math.round(resarr[j][i+1]);
                 yk=yend-(Math.round(resarr[j][i+2])-Math.round(resarr[j][i+3]));
                 if(i>0) svgstr+=",";
                 svgstr+=xk+","+yk;
             }
-            for(i=resarr.length-5;i>=0;i-=5){
+            for(i=resarr[j].length-5;i>=0;i-=5){
                 xk=xstart+Math.round(resarr[j][i+1]);
                 yk=yend-(Math.round(resarr[j][i+2])+Math.round(resarr[j][i+3]));
-                svgstr+=","+xk+","+yk;
+                if(i>0) svgstr+=",";
+                svgstr+=xk+","+yk;
             }
             svgstr+="' style='fill:"+colorz[j]+";stroke:none;stroke-width:1;fill-opacity:0.25' />"
-*/        
+          
         }
           
 
