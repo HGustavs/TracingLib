@@ -29,20 +29,24 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
                 echo "\nresarr[".$objcnt."]=[";
                 $objcnt++;
             }else{
-                if($i>0) echo ",\n";            
+                if(in_array($row[4],$_POST['doowap'])){
+                    if($i>0) echo ",\n";                            
+                }
             }
             $oldrow=$row[4];
-          
-            echo $row[0];
-            echo ",";
-            echo $row[1];
-            echo ",";
-            echo $row[2];
-            echo ",";
-            echo $row[3];
-            echo ",'";
-            echo $row[4];
-            echo "'";
+            
+            if(in_array($row[4],$_POST['doowap'])){
+                echo $row[0];
+                echo ",";
+                echo $row[1];
+                echo ",";
+                echo $row[2];
+                echo ",";
+                echo $row[3];
+                echo ",'";
+                echo $row[4];
+                echo "'";
+            }
             $i++;
         }
         
@@ -148,14 +152,11 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
     </script>
   </head>
   <body onload="makediagram();">
-
     <form action="showdata1c.php" method="POST">
-      <select name="doowap" multiple="multiple">
+      <select name="doowap[]" multiple="multiple">
         
         <?php
-        
-        print_r($_POST);
-        
+              
         //        (\ /)
         //        (. .)    .       
         //       c(”)(”)  ::: 
