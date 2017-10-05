@@ -3,7 +3,7 @@
 //       c(”)(”)    . 
 //---------------------
 
-var initResCnt=1; // Default # repetitions
+var initRepCnt=1; // Default # repetitions
 
 function initTracingLib(_reps, _tag){
     measurementSeries=_tag;
