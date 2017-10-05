@@ -23,18 +23,24 @@ $stmt->execute();
 
 foreach($dataarr as $key => $value){
     $dataarrz=explode(",", $value);
-  print_r($dataarrz);
+    $tracingtime=floatval($dataarrz[2]);
+    $vectortime=floatval($dataarrz[3]);
+    $objno=floatval($dataarrz[4]);
+    $pointno=floatval($dataarrz[5]);
+    $vectno=floatval($dataarrz[6]);
+    $updtime=date("Y-m-d H:i:s",strtotime($dataarrz[7]));
+    //print_r($dataarrz);
     if(count($dataarrz)>5){
         $sql = 'INSERT INTO gdata(xres,yres,tracingtime,vectortime, objno, pointno, vectno, updtime, url,filenme) VALUES(:xres,:yres,:tracingtime,:vectortime,:objno,:pointno,:vectno,:updtime,:url,:filenme);';
         $stmt = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->bindParam(':xres', $dataarrz[0]);
         $stmt->bindParam(':yres', $dataarrz[1]);
-        $stmt->bindParam(':tracingtime', floatval($dataarrz[2]));
-        $stmt->bindParam(':vectortime', floatval($dataarrz[3]));
-        $stmt->bindParam(':objno', floatval($dataarrz[4]));
-        $stmt->bindParam(':pointno', floatval($dataarrz[5]));
-        $stmt->bindParam(':vectno', floatval($dataarrz[6]));
-        $stmt->bindParam(':updtime', date("Y-m-d H:i:s",strtotime($dataarrz[7])));
+        $stmt->bindParam(':tracingtime', $tracingtime);
+        $stmt->bindParam(':vectortime', $vectortime);
+        $stmt->bindParam(':objno', $objno);
+        $stmt->bindParam(':pointno', $pointno);
+        $stmt->bindParam(':vectno', $vectno);
+        $stmt->bindParam(':updtime', $updtime);
         $stmt->bindParam(':url', $dataarrz[8]);
         $stmt->bindParam(':filenme', $filename);
         $stmt->execute();
@@ -42,6 +48,7 @@ foreach($dataarr as $key => $value){
       
 }
 
-//print_r($dataarr);
+echo "Success!<br>";
+print_r($dataarr);
 
 ?>
