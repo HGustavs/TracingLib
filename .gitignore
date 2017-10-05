@@ -3,3 +3,5 @@ DemoImages/Friends/*.png
 DemoImages/Friends
 
 .DS_Store
+
+TracingLib_*\.html
