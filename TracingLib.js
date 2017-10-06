@@ -4,10 +4,15 @@
 //---------------------
 
 var initRepCnt=1; // Default # repetitions
-
-function initTracingLib(_reps, _tag){
+var imgsource="";
+// Initialize the TracingLib
+// _reps, the number of repetitions to run at a given resolution
+// _tag, store all benchmark data with this tag
+// _ imgsource, the prefix for all imgs 
+function initTracingLib(_reps, _tag, _imgsource){
     measurementSeries=_tag;
     initRepCnt=_reps;
+    imgsource=_imgsource;
     initcanvas();
 }
 
@@ -106,7 +111,7 @@ function initcanvas()
     // Debugging aid!
 //    res=800;
   
-    var str='<img id="imgy" src="DemoImages/Diagram/diagram'+res+'.png" onload="imageloaded();" style="display:none;" />';
+    var str='<img id="imgy" src="DemoImages/'+imgsource+res+'.png" onload="imageloaded();" style="display:none;" />';
     document.getElementById("dave").innerHTML=str;
 
 } 
