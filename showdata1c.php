@@ -5,14 +5,15 @@
   
   <?php
 //        (\ /)
-//        (. .)    .       
-//       c(”)(”)  ::: 
+//        (. .)           
+//       c(")(")  ∴ 
 //---------------------
 // CREATE TABLE gdata(xres integer, yres integer, tracingtime real, vectortime real, objno integer, pointno integer, vectno integer, updtime datetime, url text, did INTEGER AUTO_INCREMENT, primary key(did));
 
 date_default_timezone_set("Europe/Berlin");
 
-$pdo = new PDO('mysql:dbname=eurographicsdata;host=localhost', 'wikiadmin', 'kingfisher');
+include_once "../eurographicspw.php";
+$pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
 $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );   
 
     $oldrow="";
@@ -157,11 +158,6 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         
         <?php
               
-        //        (\ /)
-        //        (. .)    .       
-        //       c(”)(”)  ::: 
-        //---------------------
-        
         foreach($pdo->query("select distinct(filenme) from gdata;") as $row){
             echo "<option>";
             echo $row['filenme'];			

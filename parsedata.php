@@ -2,7 +2,7 @@
 
 //        (\ /)
 //        (. .)           
-//       c(”)(”)    . 
+//       c(")(")  ∴ 
 //---------------------
 // CREATE TABLE gdata(xres integer, yres integer, tracingtime real, vectortime real, objno integer, pointno integer, vectno integer, updtime datetime, url text, did INTEGER AUTO_INCREMENT, filenme varchar(128), primary key(did));
 
@@ -13,7 +13,7 @@ $filename = $_POST['m'];
 
 $dataarr=explode("\n", $datan);
 
-$pdo = new PDO('mysql:dbname=eurographicsdata;host=localhost', 'wikiadmin', 'kingfisher');
+$pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
 $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
 $sql = 'DELETE FROM gdata WHERE filenme=":filenme";';
