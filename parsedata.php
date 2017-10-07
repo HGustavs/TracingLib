@@ -29,9 +29,12 @@ foreach($dataarr as $key => $value){
     $pointno=floatval($dataarrz[5]);
     $vectno=floatval($dataarrz[6]);
     $updtime=date("Y-m-d H:i:s",strtotime($dataarrz[7]));
+    $floodtime=$dataarrz[9];
+  
+    echo $floodtime;
     //print_r($dataarrz);
     if(count($dataarrz)>5){
-        $sql = 'INSERT INTO gdata(xres,yres,tracingtime,vectortime, objno, pointno, vectno, updtime, url,filenme) VALUES(:xres,:yres,:tracingtime,:vectortime,:objno,:pointno,:vectno,:updtime,:url,:filenme);';
+        $sql = 'INSERT INTO gdata(xres,yres,tracingtime,vectortime, objno, pointno, vectno, updtime, url,filenme,floodtime) VALUES(:xres,:yres,:tracingtime,:vectortime,:objno,:pointno,:vectno,:updtime,:url,:filenme,:floodtime);';
         $stmt = $pdo->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
         $stmt->bindParam(':xres', $dataarrz[0]);
         $stmt->bindParam(':yres', $dataarrz[1]);
@@ -43,6 +46,7 @@ foreach($dataarr as $key => $value){
         $stmt->bindParam(':updtime', $updtime);
         $stmt->bindParam(':url', $dataarrz[8]);
         $stmt->bindParam(':filenme', $filename);
+        $stmt->bindParam(':floodtime', $floodtime);
         $stmt->execute();
     }
       

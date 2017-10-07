@@ -1,14 +1,55 @@
+// -------------------------------------------------------------------------------------------------------
+// -----------------=============######## Real Time Tracing Library ########=============-----------------
+// -------------------------------------------------------------------------------------------------------
+//  Copyright / HGustavs / a97marbr / Influenced by some ideas from PoTrace
+//
 //        (\ /)
 //        (. .)           
-//       c(”)(”)    . 
-//---------------------
+//       c(")(")  ∴ 
+//--------------------------------------------------------------------------------------------------------
 
+//------------==========########### GLOBALS ###########==========------------
+
+// Benchmark Globals
+
+var host="parsedata.php";
+var measurementSeries="Infographics_OSX_FF";
 var initRepCnt=1; // Default # repetitions
 var imgsource="";
+var repcnt=0, rescnt=0;
+
+// Measurement Array
+
+var resarr=[15,20,23,30,30,40,38,50,45,60,53,70,60,80,68,90,75,100,83,110,90,120,98,130,105,140,113,150,120,160,128,170,135,180,143,190,150,200,158,210,165,220,173,230,180,240,188,250,195,260,203,270,210,280,218,290,225,300,233,310,240,320,248,330,255,340,263,350,270,360,278,370,293,390,300,400,308,410,315,420,323,430,330,440,338,450,345,460,353,470,360,480,368,490,375,500,383,510,390,520,398,530,405,540,413,550,420,560,428,570,435,580,443,590,450,600,458,610,465,620,473,630,480,640,488,650,495,660,503,670,510,680,518,690,525,700,533,710,540,720,548,730,555,740,563,750,570,760,578,770,585,780,593,790,600,800,615,820,630,840,645,860,660,880,668,890,675,900,690,920,705,940,720,960,735,980,750,1000];
+
+// Tracing Library Globals
+
+var ctx;
+var data;
+var bits=3;
+var bitsplit=256/bits;
+           
+var maxw=600;
+var maxh=800;    
+var rw=maxw+maxw;
+        
+var buffer = new ArrayBuffer(1024);
+var cache = new Int16Array(buffer);
+
+var histogram=[];
+var objs = [];
+var consloe={};
+
+//------------==========########### Benchmark Functions ###########==========------------
+
+//--------------------------------------------------------------------------
 // Initialize the TracingLib
+// ---------------
 // _reps, the number of repetitions to run at a given resolution
 // _tag, store all benchmark data with this tag
 // _ imgsource, the prefix for all imgs 
+//--------------------------------------------------------------------------
+
 function initTracingLib(_reps, _tag, _imgsource){
     measurementSeries=_tag;
     initRepCnt=_reps;
@@ -25,11 +66,13 @@ function resetBenchmark(){
     document.getElementById("res").innerHTML=(rescnt+1)+"/"+((resarr.length/2)+1);
     document.getElementById("reps").innerHTML=(repcnt)+"/"+initRepCnt;
 }
+
+//--------------------------------------------------------------------------
 // Transmit benchmark
+// ---------------
 // Used to trans the collected measurements to an SQLite DB
 // measurementSeries is used to tag the particular batch of measurements
-var host="parsedata.php";
-var measurementSeries="Infographics_OSX_FF";
+//--------------------------------------------------------------------------
 
 function transmitBenchmark(){
     var xhttp = new XMLHttpRequest();
@@ -44,30 +87,6 @@ function transmitBenchmark(){
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(params);
 }
-
-// Measurement Array
-var resarr=[15,20,23,30,30,40,38,50,45,60,53,70,60,80,68,90,75,100,83,110,90,120,98,130,105,140,113,150,120,160,128,170,135,180,143,190,150,200,158,210,165,220,173,230,180,240,188,250,195,260,203,270,210,280,218,290,225,300,233,310,240,320,248,330,255,340,263,350,270,360,278,370,293,390,300,400,308,410,315,420,323,430,330,440,338,450,345,460,353,470,360,480,368,490,375,500,383,510,390,520,398,530,405,540,413,550,420,560,428,570,435,580,443,590,450,600,458,610,465,620,473,630,480,640,488,650,495,660,503,670,510,680,518,690,525,700,533,710,540,720,548,730,555,740,563,750,570,760,578,770,585,780,593,790,600,800,615,820,630,840,645,860,660,880,668,890,675,900,690,920,705,940,720,960,735,980,750,1000];
-        
-var ctx;
-var data;
-
-var bits=3;
-var bitsplit=256/bits;
-           
-var maxw=600;
-var maxh=800;    
-var rw=maxw+maxw;
-        
-var histogram=[];
-        
-var buffer = new ArrayBuffer(1024);
-var cache = new Int16Array(buffer);
-
-var objs = [];
-      
-var consloe={};
-
-var repcnt=0, rescnt=0;
       
 consloe.log=function(gobBluth)
 {
@@ -115,7 +134,7 @@ function initcanvas()
     document.getElementById("dave").innerHTML=str;
 
 } 
- 
+
 var medw=5;
 var medc=Math.floor(medw/2.0);
 
@@ -303,6 +322,7 @@ function updateview()
     }
     
     var starttime=performance.now();
+    var floodtime=0;
 
     // Flood fill green channel based on red channel contour.
     // cnt=floodfill(0,0,255);
@@ -476,7 +496,11 @@ function updateview()
 
             }
 
+            var starttimeflood=performance.now();
             cnt=floodfill(sx,sy,r);
+            var endtimeflood=performance.now();
+          
+            floodtime+=(endtimeflood-starttimeflood);
             
             obj={};
             obj.points=points;
@@ -536,13 +560,13 @@ function updateview()
     str+=" ,"+totalreduced;
     str+=" ,"+tim;
     str+=" ,"+document.getElementById('imgy').src;
+    str+=" ,"+floodtime;  
     str+="\n";
     
     str=localStorage.getItem("benchmark")+str;
     localStorage.setItem('benchmark', str); 
     
     drawOutlines();
-  
 
     if(repcnt>initRepCnt){
         repcnt=0;
@@ -552,9 +576,7 @@ function updateview()
     localStorage.setItem('repcnt',repcnt+1);
     localStorage.setItem('rescnt',rescnt);
 
-    //if(document.getElementById("chb").checked) setTimeout(function(){ location.reload();  }, 200);  
     setTimeout(function(){ location.reload();  }, 200);
-  
 }
 
 //--------------------------------------------------------------------------
@@ -562,6 +584,7 @@ function updateview()
 // ---------------
 // draws a line using specific styles
 //--------------------------------------------------------------------------
+
 function drawStyledLine(p1,p2)
 {   
         var dashlen=2;
