@@ -13,6 +13,7 @@
 date_default_timezone_set("Europe/Berlin");
 
 include_once "../eurographicspw.php";
+  
 $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD);
 $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );   
 

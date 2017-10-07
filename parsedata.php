@@ -8,6 +8,8 @@
 
 date_default_timezone_set("Europe/Berlin");
 
+include_once "../eurographicspw.php";
+
 $datan = $_POST['benchmark'];
 $filename = $_POST['m'];
 

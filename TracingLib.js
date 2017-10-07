@@ -115,7 +115,7 @@ function initcanvas()
 
     repcnt=parseInt(localStorage.getItem('repcnt'));
     rescnt=parseInt(localStorage.getItem('rescnt'));  
-    document.getElementById("res").innerHTML=(rescnt+1)+"/"+((resarr.length/2)+1);
+    document.getElementById("res").innerHTML=(rescnt+1)+"/"+((resarr.length/2)+1)+"/"+resarr[(rescnt*2)+1];
     document.getElementById("reps").innerHTML=(repcnt)+"/"+initRepCnt;
   
     var res=resarr[(rescnt*2)+1];
@@ -302,6 +302,9 @@ function floodfill(floodx,floody,trigger)
         iii++;
     }
     
+//    ctx.putImageData(data,0-maxw,0);
+//    alert(trigger+" "+iii+" "+floodx+" "+floody);
+  
     // consloe.log("ff: "+iii+" "+trigger);
     
     // Return count of filled pixels
@@ -351,8 +354,8 @@ function updateview()
             var ind=((rw*yy)+xx)*4;
             r=data.data[ind];
 
-            // If we find another un-traced point - we assume any color brigher than 216 to be part of the background
-            if(found==false&&r<240){
+            // If we find another un-traced point - we assume any color brigher than 250 to be part of the background
+            if(found==false&&r<250){
                 found=true;
                 break;
             }
@@ -381,7 +384,7 @@ function updateview()
 
             // Trace path using marching square-like algorithm  
             // Automatically exits function if it has not found the end of the curve after 9000 pixels
-            while(ig<9000){
+            while(ig<29000){
                     var ind=((rw*yy)+xx)*4;
 
                     if(sx==xx&&sy==yy&&ig!=0){
@@ -506,7 +509,7 @@ function updateview()
             obj.points=points;
             objs.push(obj);
             
-            if(objs.length>20) break;
+            if(objs.length>200) break;
 
             points=[];
 
@@ -516,24 +519,13 @@ function updateview()
 
 
     }
-    
-    //alert("Tracedi: "+gpp+" objects");
-
-    // ctx.putImageData(data2,0,0);
-    // ctx.putImageData(data,0,0);
-    
+      
     var endtime=performance.now();
   
     ctx.clearRect(0,0,1000,1000);    
 
     var starttime2=performance.now();
-  
-//    data=ctx.getImageData(0, 0, rw, maxh);
-    
-    // alert(JSON.stringify(points));
-
-    // alert(performance.now()-starttime);
-    
+      
     reduce();
   
     var endtime2=performance.now();
@@ -576,7 +568,7 @@ function updateview()
     localStorage.setItem('repcnt',repcnt+1);
     localStorage.setItem('rescnt',rescnt);
 
-    setTimeout(function(){ location.reload();  }, 200);
+    setTimeout(function(){ location.reload();  }, 1000);
 }
 
 //--------------------------------------------------------------------------
