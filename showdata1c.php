@@ -62,7 +62,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
     function makediagram()
     {
         var ystart=50;
-        var yend=250;
+        var yend=400;
         var xstart=50;
         var xend=1050;
         var arrowwidth=4;
@@ -73,7 +73,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
         var svgstr="";
 
-        svgstr+="<svg width='1200' height='600' >";
+        svgstr+="<svg width='1200' height='800' >";
 
         svgstr+="<defs>";
         svgstr+="<clipPath id='daClip'>";
@@ -118,7 +118,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
 
         // Vert ruler
-        for(i=20;i<=200;i+=20){
+        for(i=20;i<=300;i+=20){
             if((i%100)==0){
                 svgstr+="<line x1='"+(xstart-rulerwidth)+"' y1='"+(yend-i)+"' x2='"+(xstart+rulerwidth)+"' y2='"+(yend-i)+"' stroke-width='2' stroke='black'/>";
                 svgstr+="<text font-family='Arial' x='"+(xstart-8)+"' y='"+(yend-i+1)+"' fill='black' text-anchor='end' dominant-baseline='central'>"+i+"</text>";

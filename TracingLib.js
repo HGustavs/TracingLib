@@ -115,7 +115,7 @@ function initcanvas()
 
     repcnt=parseInt(localStorage.getItem('repcnt'));
     rescnt=parseInt(localStorage.getItem('rescnt'));  
-    document.getElementById("res").innerHTML=(rescnt+1)+"/"+((resarr.length/2)+1)+"/"+resarr[(rescnt*2)+1];
+    document.getElementById("res").innerHTML=(rescnt+1)+"/"+((resarr.length/2)+1)+"/("+resarr[(rescnt*2)+1]+"x"+resarr[(rescnt*2)]+")";
     document.getElementById("reps").innerHTML=(repcnt)+"/"+initRepCnt;
   
     var res=resarr[(rescnt*2)+1];
@@ -560,7 +560,7 @@ function updateview()
     
     drawOutlines();
 
-    if(repcnt>initRepCnt){
+    if(repcnt>=initRepCnt){
         repcnt=0;
         rescnt++;
       
@@ -1246,4 +1246,3 @@ function setuptimer()
 {
 //    setTimeout(function(){ partialupdate(); }, 1000);
 }
-

@@ -5,6 +5,7 @@
 //       c(")(")  ∴ 
 //---------------------
 // CREATE TABLE gdata(xres integer, yres integer, tracingtime real, vectortime real, objno integer, pointno integer, vectno integer, updtime datetime, url text, did INTEGER AUTO_INCREMENT, filenme varchar(128), primary key(did));
+// ALTER TABLE gdata ADD COLUMN floodtime REAL;
 
 date_default_timezone_set("Europe/Berlin");
 
