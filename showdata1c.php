@@ -145,6 +145,28 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         svgstr+="<polygon points='"+(xend+arrowoffs)+","+(yend-arrowwidth)+","+(xend+arrowoffs)+","+(yend+arrowwidth)+","+(xend+arrowoffs+arrowheight)+","+(yend)+"' style='fill:black;stroke:none;' />";
         svgstr+="<line x1='"+(xstart)+"' y1='"+yend+"' x2='"+(xend+arrowoffs)+"' y2='"+yend+"' stroke-width='2' stroke='black'/>";
 
+        var oarr=[];
+        for(var i=0;i<resarr.length;i++){
+            var inh=resarr[i];
+            for(var j=0;j<inh.length;j+=5){
+                var datag=inh[j+4];
+                oarr[datag]=i;
+            }
+        }
+
+        var yk=0;
+        var legendx=500;
+        var legendwidth=55;
+        var legendheight=20;
+        for(var key in oarr){
+            yk+=25;
+
+            svgstr+="<polygon points='"+(legendx)+","+(yk)+","+(legendx+legendwidth)+","+(yk)+","+(legendx+legendwidth)+","+(yk+legendheight)+","+(legendx)+","+(yk+legendheight)+"' style='fill:"+colorz[oarr[key]]+";stroke:none;stroke-width:2;fill-opacity:0.25;' />";
+            svgstr+="<polyline points='"+(legendx)+","+(yk+(legendheight*0.5))+","+(legendx+legendwidth)+","+(yk+(legendheight*0.5))+"' style='fill:"+colorz[oarr[key]]+";stroke:"+colorz[oarr[key]]+";stroke-width:2;fill-opacity:0.25;' />";
+            svgstr+="<text font-family='Arial' x='"+(legendx+legendwidth+4)+"' y='"+(yk+(legendheight*0.5))+"' fill='black' text-anchor='start' dominant-baseline='central'>"+key+"</text>";
+
+        }
+      
         // End of svg string
         svgstr+="</svg>";
 
