@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TracingLib Demo Page</title>
+    <script src="naturaldraw.js"></script>
+</head>
+  <script>
+
+var reduced=[];
+var points=[]; 
+
+function draw()
+{
+    ctx.strokeStyle="#000";
+    ctx.strokeStyle="#dcf";
+
+    // Save state
+    ctx.save();
+  
+    // Draw outer contour
+    ctx.beginPath();
+    for(var j=0;j<(reduced.length);j++){
+        if(j==0){
+          ctx.moveTo(points[reduced[j].p1].x,points[reduced[j].p1].y);        
+        }else{
+          ctx.lineTo(points[reduced[j].p1].x,points[reduced[j].p1].y);                
+        }
+    }
+    ctx.closePath();
+    ctx.clip();
+
+    // Draw hatching pattern
+    for(i=-250;i<200;i+=10){
+        drawThickLine({x:80,y:i+(Math.random()*38)},{x:400+(Math.random()*38),y:i+250+(Math.random()*38)});
+        
+        drawThickLine({x:80,y:i+270+(Math.random()*28)},{x:400+(Math.random()*68),y:i-050+(Math.random()*18)});
+    }
+
+    // Restore 
+    ctx.restore();
+
+    // Draw outer contour
+    for(var j=0;j<(reduced.length);j++){
+        var p1=points[reduced[j].p1];
+        var p2=points[reduced[j].p2];
+        drawThickLine(p1,p2);
+    }
+
+}
+
+function initcanvas()
+{
+    var canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+  
+    // Noise test bed 
+/*
+    for(var i=0;i<200;i+=5){
+      for(var j=0;j<200;j+=5){
+          var nnoise=Math.round(128+(cosjitter(j,i)*128));
+          ctx.fillStyle="rgb("+nnoise+","+nnoise+","+nnoise+")";
+          ctx.fillRect(j,i,5,5);
+      }
+    }
+*/
+  
+    points.push({x:250,y:20,corner:0});
+    points.push({x:350,y:20,corner:0});
+    points.push({x:350,y:50,corner:0});
+    points.push({x:250,y:50,corner:0});
+    points.push({x:250,y:300,corner:0});
+    points.push({x:200,y:300,corner:0});
+    points.push({x:200,y:50,corner:0});
+    points.push({x:100,y:50,corner:0});
+    points.push({x:100,y:20,corner:0});
+
+    reduced.push({k:0,p1:0,p2:1,p3:0});
+    reduced.push({k:0,p1:1,p2:2,p3:0});
+    reduced.push({k:0,p1:2,p2:3,p3:0});
+    reduced.push({k:0,p1:3,p2:4,p3:0});
+    reduced.push({k:0,p1:4,p2:5,p3:0});
+    reduced.push({k:0,p1:5,p2:6,p3:0});
+    reduced.push({k:0,p1:6,p2:7,p3:0});
+    reduced.push({k:0,p1:7,p2:8,p3:0});
+    reduced.push({k:0,p1:8,p2:0,p3:0});
+
+    draw();
+}
+    
+  </script>
+</head>
+<body onload="initcanvas();">
+    <canvas id="myCanvas" width="2000" height="1000" style="border:1px solid blue;"></canvas>
+    
+    <div id="dave"></div>  
+
+    <div id="consloe" style="position:fixed;left:0px;right:0px;bottom:0px;height:100px;overflow:scroll;background:#dfe;border:1px solid green;">consloe</div>
+</body>
+</html>

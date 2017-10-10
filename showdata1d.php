@@ -23,7 +23,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
     if(isset($_POST['doowap'])){
 
         $i=0;
-        foreach($pdo->query( 'select xres,yres,AVG(tracingtime),STD(tracingtime),filenme from gdata group by yres,filenme order by filenme,xres;' ) as $row){
+        foreach($pdo->query( 'select xres,yres,AVG(tracingtime),STD(tracingtime),filenme,AVG(vectortime),STD(vectortime),AVG(floodtime),STD(floodtime) from gdata group by yres,filenme order by filenme,xres;' ) as $row){
             
             // If current row and old row are equal
             if($oldrow!=$row[4]){
@@ -47,7 +47,14 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
                 echo $row[3];
                 echo ",'";
                 echo $row[4];
-                echo "'";
+                echo "',";
+                echo $row[5];
+                echo ",";
+                echo $row[6];
+                echo ",";
+                echo $row[7];
+                echo ",";
+                echo $row[8];
             }
             $i++;
         }
@@ -80,13 +87,13 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         svgstr+="<polygon points='"+(xstart)+","+(ystart)+","+(xend)+","+(ystart)+","+(xend)+","+(yend)+","+(xstart)+","+(yend)+"' style='fill:black;stroke:none;' />";
         svgstr+="</clipPath>";
         svgstr+="</defs>";
-
+      
         // Demo line
         // svgstr+="<polyline points='20,20 40,25 60,40 80,120 120,140 200,180' style='fill:none;stroke:black;stroke-width:3' />";
 
         var colorz=["#5e5","#e55","#55e"];
       
-        var itemsize=5;
+        var itemsize=9;
         for(var j=0;j<resarr.length;j++){
             // Main diagram Line
             if(resarr[j].length>0){
@@ -112,24 +119,24 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
                   
                     for(i=sstart;i<ssend;i+=itemsize){
                         xk=xstart+Math.round(resarr[j][i+1]);
-                        yk=yend-(Math.round(resarr[j][i+2])-Math.round(resarr[j][i+3]));
+                        yk=yend-(Math.round(resarr[j][i+2]));
                         if(i>sstart) svgstr+=",";
                         svgstr+=xk+","+yk;
                     }
                     for(i=ssend-itemsize;i>=sstart;i-=itemsize){
                         xk=xstart+Math.round(resarr[j][i+1]);
-                        yk=yend-(Math.round(resarr[j][i+2])+Math.round(resarr[j][i+3]));
+                        yk=yend;
                         svgstr+=","+xk+","+yk;
                     }
                     svgstr+="' style='fill:"+colorz[j]+";stroke:none;stroke-width:1;fill-opacity:0.25' />"
                   
-                    sg+=(10*itemsize);
+                    sg+=(9*itemsize);
                   
                 }while(sg<resarr[j].length);
               
             }
         }
-
+      
         // Vert ruler
         for(i=20;i<=300;i+=20){
             if((i%100)==0){
@@ -161,14 +168,14 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         var oarr=[];
         for(var i=0;i<resarr.length;i++){
             var inh=resarr[i];
-            for(var j=0;j<inh.length;j+=5){
+            for(var j=0;j<inh.length;j+=9){
                 var datag=inh[j+4];
                 oarr[datag]=i;
             }
         }
 
         var yk=0;
-        var legendx=500;
+        var legendx=75;
         var legendwidth=55;
         var legendheight=20;
         for(var key in oarr){
@@ -189,7 +196,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
     </script>
   </head>
   <body onload="makediagram();">
-    <form action="showdata1c.php" method="POST">
+    <form action="showdata1d.php" method="POST">
       <select name="doowap[]" multiple="multiple">
         
         <?php
