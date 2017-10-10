@@ -5,7 +5,7 @@
   
   <?php
 //        (\ /)
-//        (. .)           
+//        {o-o}           
 //       c(")(")  ∴ 
 //---------------------
 // CREATE TABLE gdata(xres integer, yres integer, tracingtime real, vectortime real, objno integer, pointno integer, vectno integer, updtime datetime, url text, did INTEGER AUTO_INCREMENT, primary key(did));
@@ -123,7 +123,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
                     }
                     svgstr+="' style='fill:"+colorz[j]+";stroke:none;stroke-width:1;fill-opacity:0.25' />"
                   
-                    sg+=(10*itemsize);
+                    sg+=(9*itemsize);
                   
                 }while(sg<resarr[j].length);
               

@@ -82,31 +82,32 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
         svgstr+="<svg width='1200' height='800' >";
 
+        // Defs
+        
         svgstr+="<defs>";
+
         svgstr+="<clipPath id='daClip'>";
         svgstr+="<polygon points='"+(xstart)+","+(ystart)+","+(xend)+","+(ystart)+","+(xend)+","+(yend)+","+(xstart)+","+(yend)+"' style='fill:black;stroke:none;' />";
         svgstr+="</clipPath>";
+
+        svgstr+="<linearGradient id='Gradiento' x1='0' x2='0' y1='0' y2='1'>";
+        svgstr+="<stop offset='0%' stop-color='red'/>";
+        svgstr+="<stop offset='50%' stop-color='black' stop-opacity='0'/>";
+        svgstr+="<stop offset='100%' stop-color='blue'/>";
+        svgstr+="</linearGradient>";
+      
         svgstr+="</defs>";
+      
       
         // Demo line
         // svgstr+="<polyline points='20,20 40,25 60,40 80,120 120,140 200,180' style='fill:none;stroke:black;stroke-width:3' />";
 
-        var colorz=["#5e5","#e55","#55e"];
+        var colorz=["#5e5","#bfb","#e55","#ebb","#55e","#bbe","#5e5","#e55","#55e"];
       
         var itemsize=9;
         for(var j=0;j<resarr.length;j++){
             // Main diagram Line
             if(resarr[j].length>0){
-                svgstr+="<polyline clip-path='url(#daClip)' points='";
-                var kb=0;
-                for(i=0;i<resarr[j].length;i+=itemsize){
-                    xk=xstart+Math.round(resarr[j][i+1]);
-                    yk=yend-Math.round(resarr[j][i+2]);
-                    if(kb>0) svgstr+=",";
-                    svgstr+=xk+","+yk;
-                    kb++;
-                }
-                svgstr+="' style='fill:none;stroke:"+colorz[j]+";stroke-width:2' />";
 
                 // Error bar fill
                 var sg=0;
@@ -128,12 +129,119 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
                         yk=yend;
                         svgstr+=","+xk+","+yk;
                     }
-                    svgstr+="' style='fill:"+colorz[j]+";stroke:none;stroke-width:1;fill-opacity:0.25' />"
-                  
+                    svgstr+="' style='fill:"+colorz[1]+";stroke:none;stroke-width:1;' />"
                     sg+=(9*itemsize);
-                  
                 }while(sg<resarr[j].length);
+
+                // Line for tracing time
+                svgstr+="<polyline clip-path='url(#daClip)' points='";
+                var kb=0;
+                for(i=0;i<resarr[j].length;i+=itemsize){
+                    xk=xstart+Math.round(resarr[j][i+1]);
+                    yk=yend-Math.round(resarr[j][i+2]);
+                    if(kb>0) svgstr+=",";
+                    svgstr+=xk+","+yk;
+                    kb++;
+                }
+                svgstr+="' style='fill:none;stroke:"+colorz[0]+";stroke-width:2' />";
+
+                // Error bar fill
+                var sg=0;
+                do{
+                    svgstr+="<polygon clip-path='url(#daClip)' points='";
+                    
+                    var sstart=sg;
+                    var ssend=sg+(10*itemsize);
+                    if(ssend>resarr[j].length) ssend=resarr[j].length;
+                  
+                    for(i=sstart;i<ssend;i+=itemsize){
+                        xk=xstart+Math.round(resarr[j][i+1]);
+                        yk=yend-(Math.round(resarr[j][i+7]));
+                        if(i>sstart) svgstr+=",";
+                        svgstr+=xk+","+yk;
+                    }
+                    for(i=ssend-itemsize;i>=sstart;i-=itemsize){
+                        xk=xstart+Math.round(resarr[j][i+1]);
+                        yk=yend;
+                        svgstr+=","+xk+","+yk;
+                    }
+                    svgstr+="' style='fill:"+colorz[5]+";stroke:none;stroke-width:1;' />"
+                    sg+=(9*itemsize);
+                }while(sg<resarr[j].length);
+
+                // Line for tracing time
+                svgstr+="<polyline clip-path='url(#daClip)' points='";
+                var kb=0;
+                for(i=0;i<resarr[j].length;i+=itemsize){
+                    xk=xstart+Math.round(resarr[j][i+1]);
+                    yk=yend-Math.round(resarr[j][i+7]);
+                    if(kb>0) svgstr+=",";
+                    svgstr+=xk+","+yk;
+                    kb++;
+                }
+                svgstr+="' style='fill:none;stroke:"+colorz[4]+";stroke-width:2' />";
               
+                // Error bar fill
+                var sg=0;
+                do{
+                    svgstr+="<polygon clip-path='url(#daClip)' points='";
+                    
+                    var sstart=sg;
+                    var ssend=sg+(10*itemsize);
+                    if(ssend>resarr[j].length) ssend=resarr[j].length;
+                  
+                    for(i=sstart;i<ssend;i+=itemsize){
+                        xk=xstart+Math.round(resarr[j][i+1]);
+                        yk=yend-(Math.round(resarr[j][i+5]));
+                        if(i>sstart) svgstr+=",";
+                        svgstr+=xk+","+yk;
+                    }
+                    for(i=ssend-itemsize;i>=sstart;i-=itemsize){
+                        xk=xstart+Math.round(resarr[j][i+1]);
+                        yk=yend;
+                        svgstr+=","+xk+","+yk;
+                    }
+                    svgstr+="' style='fill:"+colorz[3]+";stroke:none;stroke-width:1;' />"
+                    sg+=(9*itemsize);
+                }while(sg<resarr[j].length);
+
+                // Line for tracing time
+                svgstr+="<polyline clip-path='url(#daClip)' points='";
+                var kb=0;
+                for(i=0;i<resarr[j].length;i+=itemsize){
+                    xk=xstart+Math.round(resarr[j][i+1]);
+                    yk=yend-Math.round(resarr[j][i+5]);
+                    if(kb>0) svgstr+=",";
+                    svgstr+=xk+","+yk;
+                    kb++;
+                }
+                svgstr+="' style='fill:none;stroke:"+colorz[2]+";stroke-width:2' />";              
+/*                  
+                // Line for tracing time
+                svgstr+="<polyline clip-path='url(#daClip)' points='";
+                var kb=0;
+                for(i=0;i<resarr[j].length;i+=itemsize){
+                    xk=xstart+Math.round(resarr[j][i+1]);
+                    yk=yend-Math.round(resarr[j][i+7]);
+                    if(kb>0) svgstr+=",";
+                    svgstr+=xk+","+yk;
+                    kb++;
+                }
+                svgstr+="' style='fill:none;stroke:"+colorz[j+1]+";stroke-width:2' />";
+
+                // Line for tracing time
+                svgstr+="<polyline clip-path='url(#daClip)' points='";
+                var kb=0;
+                for(i=0;i<resarr[j].length;i+=itemsize){
+                    xk=xstart+Math.round(resarr[j][i+1]);
+                    yk=yend-Math.round(resarr[j][i+5]);
+                    if(kb>0) svgstr+=",";
+                    svgstr+=xk+","+yk;
+                    kb++;
+                }
+                svgstr+="' style='fill:none;stroke:"+colorz[j+2]+";stroke-width:2' />";
+*/
+                                
             }
         }
       
