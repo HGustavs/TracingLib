@@ -62,7 +62,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
     function makediagram()
     {
         var ystart=50;
-        var yend=400;
+        var yend=700;
         var xstart=50;
         var xend=1050;
         var arrowwidth=4;
@@ -84,7 +84,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         // Demo line
         // svgstr+="<polyline points='20,20 40,25 60,40 80,120 120,140 200,180' style='fill:none;stroke:black;stroke-width:3' />";
 
-        var colorz=["#5e5","#e55","#55e"];
+        var colorz=["#5e5","#e55","#55e","#6df","#d97","#97d","#fd7","#f7d","#7df","#cd7","#c7d","#7dc","#d78"];
       
         var itemsize=5;
         for(var j=0;j<resarr.length;j++){
@@ -131,7 +131,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         }
 
         // Vert ruler
-        for(i=20;i<=300;i+=20){
+        for(i=20;i<=650;i+=20){
             if((i%100)==0){
                 svgstr+="<line x1='"+(xstart-rulerwidth)+"' y1='"+(yend-i)+"' x2='"+(xstart+rulerwidth)+"' y2='"+(yend-i)+"' stroke-width='2' stroke='black'/>";
                 svgstr+="<text font-family='Arial' x='"+(xstart-8)+"' y='"+(yend-i+1)+"' fill='black' text-anchor='end' dominant-baseline='central'>"+i+"</text>";
@@ -168,7 +168,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         }
 
         var yk=0;
-        var legendx=500;
+        var legendx=75;
         var legendwidth=55;
         var legendheight=20;
         for(var key in oarr){
