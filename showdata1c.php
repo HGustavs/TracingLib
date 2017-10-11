@@ -84,7 +84,7 @@ $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
         // Demo line
         // svgstr+="<polyline points='20,20 40,25 60,40 80,120 120,140 200,180' style='fill:none;stroke:black;stroke-width:3' />";
 
-        var colorz=["#5e5","#e55","#55e","#6df","#d97","#97d","#fd7","#f7d","#7df","#cd7","#c7d","#7dc","#d78"];
+        var colorz=["#5e5","#e55","#55e","#6df","#d97","#97d","#d78","#fd7","#f7d","#7df","#cd7","#c7d","#7dc","#d78"];
       
         var itemsize=5;
         for(var j=0;j<resarr.length;j++){
